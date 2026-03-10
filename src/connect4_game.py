@@ -2,11 +2,13 @@ from connect4_gui import *
 
 
 class Connect4Game:
-    def __init__(self):
+    def __init__(self, board):
         # think about what variables we need to track
         # player turn? 
         # we should structure this similar to hw1 - have a different file handle the AI stuff
-        pass
+        self.board = board
+        self.player_turn = 1  # player 1 starts
+        self.won = False
 
 
     def get_valid_moves(self):
@@ -19,13 +21,15 @@ class Connect4Game:
     def drop_piece(self):
         """
         Drops a piece corresponding to the current player in the 
-        chosen move
+        chosen move 
+        Updates the board with the current players value 
         """
         pass
 
     def check_win(self):
         """
         Checks if, after the most recent move, a player has won
+        return winning player 
         """
         pass 
 
