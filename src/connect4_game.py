@@ -4,14 +4,13 @@ from connect4_gui import *
 class Connect4Game:
     def __init__(self, rows, cols, board):
         # think about what variables we need to track
-        # player turn? 
+        # player turn?
         # we should structure this similar to hw1 - have a different file handle the AI stuff
         self.rows = rows
-        self.cols = cols 
+        self.cols = cols
         self.board = board
         self.player_turn = 1  # player 1 starts
         self.won = False
-
 
     def get_valid_moves(self):
         """
@@ -23,17 +22,15 @@ class Connect4Game:
     def _is_valid_move(self, col):
         return self.board[0][col] == 0
 
-
-
     def drop_piece(self, col):
         """
-        Drops a piece corresponding to the current player in the 
-        chosen move 
-        Updates the board with the current players value 
+        Drops a piece corresponding to the current player in the
+        chosen move
+        Updates the board with the current players value
         """
 
         if self._is_valid_move(col):
-            # find the most recently empty row 
+            # find the most recently empty row
             i = self.board.shape[0] - 1
             while i >= 0:
                 cur_cell = self.board[i][col]
@@ -42,15 +39,36 @@ class Connect4Game:
                     break
                 else:
                     i -= 1
-        # change player move 
+        # change player move
         self.player_turn = (self.player_turn % 2) + 1
 
     def check_win(self):
-        """
-        Checks if, after the most recent move, a player has won
-        return winning player 
-        """
-        pass 
+        # Returns the winning player (1 or 2), or None if no winner yet.
+        for player in [1, 2]:
+            if self._has_won(player):
+                return player
+        return None
+
+    def _has_won(self, player):
+        directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
+        return any(
+            self._check_direction(
+                player, row, col, dr, dc
+            )  # dr, dc are direction steps
+            for row in range(self.rows)
+            for col in range(self.cols)
+            for dr, dc in directions
+        )
+
+    def _check_direction(self, player, row, col, dr, dc):
+        # Checks if there are 4 consecutive pieces for the given player, starts at row and col and direction dr,dc
+        for i in range(4):
+            r, c = row + dr * i, col + dc * i
+            if not (0 <= r < self.rows and 0 <= c < self.cols):
+                return False
+            if self.board[r][c] != player:
+                return False
+        return True
 
 
 def main():
@@ -80,6 +98,6 @@ def main():
     game.drop_piece(0)
     print(game.board)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
-    
