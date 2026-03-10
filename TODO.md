@@ -3,6 +3,8 @@
 ## Project-Wide To-Dos:
 - ~~Create GitHub repo~~
 - ~~Create visual interface~~
+- Implement base gameplay (Dropping in pieces + alternating turns)
+----- CHECKPOINT FOR PROGRESS REPORT 1 -----
 - Implement AI vs AI basic gameplay
 - Implement AI vs user basic gameplay
 - Implement gravity shift
