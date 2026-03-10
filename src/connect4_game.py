@@ -29,16 +29,17 @@ class Connect4Game:
         Updates the board with the current players value
         """
 
-        if self._is_valid_move(col):
-            # find the most recently empty row
-            i = self.board.shape[0] - 1
-            while i >= 0:
-                cur_cell = self.board[i][col]
-                if cur_cell == 0:
-                    self.board[i][col] = self.player_turn
-                    break
-                else:
-                    i -= 1
+        if not self._is_valid_move(col):
+            raise ValueError(f"Column {col} is full")
+        # find the most recently empty row
+        i = self.board.shape[0] - 1
+        while i >= 0:
+            cur_cell = self.board[i][col]
+            if cur_cell == 0:
+                self.board[i][col] = self.player_turn
+                break
+            else:
+                i -= 1
         # change player move
         self.player_turn = (self.player_turn % 2) + 1
 
