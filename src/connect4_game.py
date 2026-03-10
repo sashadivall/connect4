@@ -76,7 +76,7 @@ def main():
     cols = 7
     board = np.zeros((rows, cols))
     game = Connect4Game(rows, cols, board)
-
+    # winning vertically
     game.drop_piece(0)
     print(game.board)
 
@@ -97,6 +97,45 @@ def main():
 
     game.drop_piece(0)
     print(game.board)
+
+    print(game.check_win())
+
+    board = np.zeros((rows, cols))
+    game = Connect4Game(rows, cols, board)
+    # win horizontally
+    game.drop_piece(0)
+    game.drop_piece(1)
+
+    game.drop_piece(0)
+    game.drop_piece(2)
+
+    # check that no one has won yet
+    print(game.check_win())
+    game.drop_piece(1)
+    game.drop_piece(3)
+
+    game.drop_piece(1)
+    game.drop_piece(4)
+    print(game.check_win())
+
+    # win diagonally
+    game.drop_piece(0)
+    game.drop_piece(1)
+
+    game.drop_piece(1)
+    game.drop_piece(2)
+    
+    game.drop_piece(3)
+    game.drop_piece(2)
+
+    game.drop_piece(2)
+    game.drop_piece(3)
+
+    game.drop_piece(3)
+    game.drop_piece(4)
+
+    game.drop_piece(3)
+    print(game.check_win())
 
 
 if __name__ == "__main__":
