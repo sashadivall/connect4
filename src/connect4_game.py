@@ -17,7 +17,14 @@ class Connect4Game:
         Retrieves all legal moves from the current board state
         """
         # think about how we want to visually handle users choosing the wrong move
-        pass
+        valid_moves = []
+
+        for col in range(self.cols):
+            if self._is_valid_move(col):
+               valid_moves.append(col)
+
+        return valid_moves
+        
 
     def _is_valid_move(self, col):
         return self.board[0][col] == 0
@@ -29,16 +36,17 @@ class Connect4Game:
         Updates the board with the current players value
         """
 
-        if self._is_valid_move(col):
-            # find the most recently empty row
-            i = self.board.shape[0] - 1
-            while i >= 0:
-                cur_cell = self.board[i][col]
-                if cur_cell == 0:
-                    self.board[i][col] = self.player_turn
-                    break
-                else:
-                    i -= 1
+        if not self._is_valid_move(col):
+            raise ValueError(f"Column {col} is full")
+        # find the most recently empty row
+        i = self.board.shape[0] - 1
+        while i >= 0:
+            cur_cell = self.board[i][col]
+            if cur_cell == 0:
+                self.board[i][col] = self.player_turn
+                break
+            else:
+                i -= 1
         # change player move
         self.player_turn = (self.player_turn % 2) + 1
 
@@ -76,7 +84,8 @@ def main():
     cols = 7
     board = np.zeros((rows, cols))
     game = Connect4Game(rows, cols, board)
-
+    print(game.get_valid_moves()) 
+    # winning vertically
     game.drop_piece(0)
     print(game.board)
 
@@ -97,6 +106,45 @@ def main():
 
     game.drop_piece(0)
     print(game.board)
+
+    print(game.check_win())
+
+    board = np.zeros((rows, cols))
+    game = Connect4Game(rows, cols, board)
+    # win horizontally
+    game.drop_piece(0)
+    game.drop_piece(1)
+
+    game.drop_piece(0)
+    game.drop_piece(2)
+
+    # check that no one has won yet
+    print(game.check_win())
+    game.drop_piece(1)
+    game.drop_piece(3)
+
+    game.drop_piece(1)
+    game.drop_piece(4)
+    print(game.check_win())
+
+    # win diagonally
+    game.drop_piece(0)
+    game.drop_piece(1)
+
+    game.drop_piece(1)
+    game.drop_piece(2)
+    
+    game.drop_piece(3)
+    game.drop_piece(2)
+
+    game.drop_piece(2)
+    game.drop_piece(3)
+
+    game.drop_piece(3)
+    game.drop_piece(4)
+
+    game.drop_piece(3)
+    print(game.check_win())
 
 
 if __name__ == "__main__":
