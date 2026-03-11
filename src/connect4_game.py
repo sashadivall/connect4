@@ -17,7 +17,14 @@ class Connect4Game:
         Retrieves all legal moves from the current board state
         """
         # think about how we want to visually handle users choosing the wrong move
-        pass
+        valid_moves = []
+
+        for col in range(self.cols):
+            if self._is_valid_move(col):
+               valid_moves.append(col)
+
+        return valid_moves
+        
 
     def _is_valid_move(self, col):
         return self.board[0][col] == 0
@@ -77,6 +84,7 @@ def main():
     cols = 7
     board = np.zeros((rows, cols))
     game = Connect4Game(rows, cols, board)
+    print(game.get_valid_moves()) 
     # winning vertically
     game.drop_piece(0)
     print(game.board)
