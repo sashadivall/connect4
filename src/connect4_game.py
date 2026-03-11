@@ -49,7 +49,7 @@ class Connect4Game:
                 return player
         return None
 
-    def _has_won(self, player):
+    def has_won(self, player):
         directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
         return any(
             self._check_direction(
@@ -60,7 +60,7 @@ class Connect4Game:
             for dr, dc in directions
         )
 
-    def _check_direction(self, player, row, col, dr, dc):
+    def check_direction(self, player, row, col, dr, dc):
         # Checks if there are 4 consecutive pieces for the given player, starts at row and col and direction dr,dc
         for i in range(4):
             r, c = row + dr * i, col + dc * i
