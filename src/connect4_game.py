@@ -21,10 +21,9 @@ class Connect4Game:
 
         for col in range(self.cols):
             if self._is_valid_move(col):
-               valid_moves.append(col)
+                valid_moves.append(col)
 
         return valid_moves
-        
 
     def _is_valid_move(self, col):
         return self.board[0][col] == 0
@@ -53,16 +52,14 @@ class Connect4Game:
     def check_win(self):
         # Returns the winning player (1 or 2), or None if no winner yet.
         for player in [1, 2]:
-            if self._has_won(player):
+            if self.has_won(player):
                 return player
         return None
 
     def has_won(self, player):
         directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
         return any(
-            self._check_direction(
-                player, row, col, dr, dc
-            )  # dr, dc are direction steps
+            self.check_direction(player, row, col, dr, dc)  # dr, dc are direction steps
             for row in range(self.rows)
             for col in range(self.cols)
             for dr, dc in directions
@@ -84,7 +81,7 @@ def main():
     cols = 7
     board = np.zeros((rows, cols))
     game = Connect4Game(rows, cols, board)
-    print(game.get_valid_moves()) 
+    print(game.get_valid_moves())
     # winning vertically
     game.drop_piece(0)
     print(game.board)
@@ -133,7 +130,7 @@ def main():
 
     game.drop_piece(1)
     game.drop_piece(2)
-    
+
     game.drop_piece(3)
     game.drop_piece(2)
 
