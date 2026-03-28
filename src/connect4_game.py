@@ -1,11 +1,14 @@
 from connect4_gui import *
-
-
+import random 
 class Connect4Game:
     def __init__(self, rows, cols, board):
         # think about what variables we need to track
         # player turn?
         # we should structure this similar to hw1 - have a different file handle the AI stuff
+        self.turn_counter = 0
+        # for now, we shift the board every 7 turns
+        # eventually, we will shift the board with some probability at any given turn
+        self.shift_window = 7
         self.rows = rows
         self.cols = cols
         self.board = board
@@ -48,6 +51,10 @@ class Connect4Game:
                 i -= 1
         # change player move
         self.player_turn = (self.player_turn % 2) + 1
+        # increment turn count 
+        self.turn_counter += 1
+        # trigger shift?
+        self.maybe_trigger_shift()
 
     def check_win(self):
         # Returns the winning player (1 or 2), or None if no winner yet.
