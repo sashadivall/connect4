@@ -1,5 +1,7 @@
 import copy 
 from connect4_game import *
+import random
+import numpy as np
 
 ###################### MCTS ALGORITHM ######################
 # Works by running n_simulations of game play and learning what optimal moves are
@@ -105,7 +107,34 @@ def backpropagate(self, node: MCTSNode, result):
         node = node.parent
     
     def best_move(self, game):
-        raise NotImplementedError("implement me!")
+        """
+        Run MCTS and return best column.
+        """
+        root = MCTSNode(game_state=game)
+
+        for _ in range(self.n_simulations):
+            # 1. Selection
+            node = self.select(root)
+
+            # 2. Expansion
+            if not self._is_terminal_state(node) and node.untried_moves:
+                node = self.expand(node)
+
+            # 3. Simulation
+            result = self.simulate(node)
+
+            # 4. Backpropagation
+            self.backpropagate(node, result)
+
+        # fallback (safety)
+        if not root.children:
+            valid_moves = game.get_valid_moves()
+            return random.choice(valid_moves) if valid_moves else None
+
+        # choose most visited move
+        best_child = max(root.children, key=lambda child: child.visits)
+        return best_child.move
+    
 
 
 
