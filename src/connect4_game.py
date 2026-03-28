@@ -60,23 +60,15 @@ class Connect4Game:
         self.last_shift = self.maybe_trigger_shift()
 
     def maybe_trigger_shift(self):
-       """
-         Called after every drop_piece().
-    If the turn count is a multiple of shift_interval,
-    randomly shift the board left or right.
-    
-    Returns:
-        "left" or "right" if a shift happened
-        None otherwise
-       """
-       if self.turn_counter % self.shift_interval == 0:
-        direction = random.choice(["left", "right"])
-        self.apply_gravity_shift(direction)
-        self.last_shift = direction
-        return direction
-
-       self.last_shift = None
-       return None
+        """
+        Called after every drop_piece()
+        Applies gravity shift if the current turn is a multiple of the shfit interval 
+        """
+        if self.turn_counter % self.shift_interval == 0:
+            self.apply_gravity_shift()
+            return self.last_shift  # "left" or "right"
+        return None
+       
 
     def check_win(self):
         # Returns the winning player (1 or 2), or None if no winner yet.
@@ -129,7 +121,7 @@ class Connect4Game:
         new_game.player_turn = self.player_turn
         new_game.turn_counter = self.turn_counter
         new_game.won = self.won
-        new_game.shift_window = self.shift_window
+        new_game.shift_interval = self.shift_interval
         new_game.last_shift = self.last_shift
         return new_game
 
