@@ -55,6 +55,10 @@ class Connect4Game:
             if self.has_won(player):
                 return player
         return None
+    
+    def check_draw(self):
+        # checks if the game has ended in a tie 
+        return (self.board[0] != 0).all()
 
     def has_won(self, player):
         directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
