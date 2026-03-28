@@ -69,11 +69,38 @@ class MCTSAgent:
         return new_node
 
     
-    def simulate(self, node):
-        raise NotImplementedError("implement me!")
     
-    def backpropagate(self, node, result):
-        raise NotImplementedError("implement me!")
+def simulate(self, node: MCTSNode):
+    """
+    From this node, play random moves until the game ends.
+    Returns the winning player (1 or 2), or 0 for a draw..
+    Gravity shift fires automatically inside drop_piece() during rollout.
+    """
+    sim = copy.deepcopy(node.game_state)  
+
+    while not sim.is_terminal():
+        moves = sim.get_valid_moves()
+        sim.drop_piece(random.choice(moves))
+
+    winner = sim.check_win()
+    return winner if winner is not None else 0  # 0 = draw
+    
+    
+def backpropagate(self, node: MCTSNode, result):
+    """
+    Walk from this node back up to the root.
+    Every node gets +1 visit.
+    A node gets +1 win if the player who moved INTO that node is the winner.
+    After drop_piece(), player_turn has already switched to the NEXT player,
+    so we reverse it to find who actually just moved.
+    """
+    while node is not None:
+        node.visits += 1
+        # player_turn already flipped after drop_piece(), so reverse to get who just moved
+        player_who_moved = (node.game_state.player_turn % 2) + 1
+        if result == player_who_moved:
+            node.wins += 1
+        node = node.parent
     
     def best_move(self, game):
         raise NotImplementedError("implement me!")
