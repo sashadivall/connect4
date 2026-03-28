@@ -10,7 +10,7 @@ class Connect4Game:
         self.turn_counter = 0
         # for now, we shift the board every 7 turns
         # eventually, we will shift the board with some probability at any given turn
-        self.shift_window = 7
+        self.shift_interval = 7
         self.rows = rows
         self.cols = cols
         self.board = board
@@ -57,7 +57,26 @@ class Connect4Game:
         # increment turn count
         self.turn_counter += 1
         # trigger shift?
-        self.maybe_trigger_shift()
+        self.last_shift = self.maybe_trigger_shift()
+
+    def maybe_trigger_shift(self):
+       """
+         Called after every drop_piece().
+    If the turn count is a multiple of shift_interval,
+    randomly shift the board left or right.
+    
+    Returns:
+        "left" or "right" if a shift happened
+        None otherwise
+       """
+       if self.turn_counter % self.shift_interval == 0:
+        direction = random.choice(["left", "right"])
+        self.apply_gravity_shift(direction)
+        self.last_shift = direction
+        return direction
+
+       self.last_shift = None
+       return None
 
     def check_win(self):
         # Returns the winning player (1 or 2), or None if no winner yet.
