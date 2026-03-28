@@ -16,6 +16,7 @@ class Connect4Game:
         self.board = board
         self.player_turn = 1  # player 1 starts
         self.won = False
+        self.last_shift = None
 
     def get_valid_moves(self):
         """
