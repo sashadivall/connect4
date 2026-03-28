@@ -35,6 +35,8 @@ class MCTSAgent:
         """
         Calculates the UCB1 score for a given node
         """
+        if node.visits == 0:
+            return float('inf')
         return (node.wins / node.visits) + self.C * np.sqrt((np.log(node.parent.visits) / node.visits))
 
     def select(self, node: MCTSNode):
