@@ -25,12 +25,49 @@ class MCTSAgent:
         # exploration constant (how much to favor exploration over exploitation)
         self.C = np.sqrt(2)
 
-
-    def select(self, node):
-        raise NotImplementedError("implement me!")
+    def _is_terminal_state(self, node: MCTSNode):
+        """
+        Checks if the given node is terminal (win/lose or draw)
+        """
+        return node.game_state.check_win() is not None or node.game_state.check_draw()
     
-    def expand(self, node):
-        raise NotImplementedError("implement me!")
+    def _ucb1_score(self, node: MCTSNode):
+        """
+        Calculates the UCB1 score for a given node
+        """
+        return (node.wins / node.visits) + self.C * np.sqrt((np.log(node.parent.visits) / node.visits))
+
+    def select(self, node: MCTSNode):
+        """
+        Selects a node from the current game tree based on the highest UCB1 score
+        """
+        while not self._is_terminal_state(node):
+            if node.untried_moves:
+                return node 
+            else:
+                node = max(node.children, key = lambda child: self._ucb1_score(child))
+
+        return node
+        
+    
+    def expand(self, node: MCTSNode):
+        """
+        Expands hte given node and updates the tree with its children
+        """
+        # select a move from children at random
+        random_move = random.choice(node.untried_moves)
+        # remove that move from untried moves
+        node.untried_moves.remove(random_move)
+
+        # drop piece into random valid move
+        state = copy.deepcopy(node.game_state)
+        state.drop_piece(random_move)
+
+        new_node = MCTSNode(game_state=state, parent=node, move=random_move)
+        node.children.append(new_node)
+
+        return new_node
+
     
     def simulate(self, node):
         raise NotImplementedError("implement me!")
