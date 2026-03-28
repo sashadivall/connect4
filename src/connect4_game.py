@@ -1,5 +1,7 @@
 from connect4_gui import *
-import random 
+import random
+
+
 class Connect4Game:
     def __init__(self, rows, cols, board):
         # think about what variables we need to track
@@ -51,7 +53,7 @@ class Connect4Game:
                 i -= 1
         # change player move
         self.player_turn = (self.player_turn % 2) + 1
-        # increment turn count 
+        # increment turn count
         self.turn_counter += 1
         # trigger shift?
         self.maybe_trigger_shift()
@@ -62,9 +64,9 @@ class Connect4Game:
             if self.has_won(player):
                 return player
         return None
-    
+
     def check_draw(self):
-        # checks if the game has ended in a tie 
+        # checks if the game has ended in a tie
         return (self.board[0] != 0).all()
 
     def has_won(self, player):
@@ -85,6 +87,35 @@ class Connect4Game:
             if self.board[r][c] != player:
                 return False
         return True
+
+    def apply_gravity_shift(self):
+        """Randomly shifts the board left or right, then re-applies gravity."""
+        direction = random.choice(["left", "right"])
+        self.last_shift = direction
+
+        # Step 1: shift each row left or right by 1, wrapping pieces around
+        shift_amount = 1 if direction == "right" else -1
+        self.board = np.roll(self.board, shift_amount, axis=1)
+
+        # Step 2: re-apply gravity column by column
+        for col in range(self.cols):
+            pieces = self.board[:, col][self.board[:, col] != 0]
+            empty = self.rows - len(pieces)
+            self.board[:, col] = np.concatenate([np.zeros(empty, dtype=int), pieces])
+
+    def clone(self):
+        """Deep copy of game state — required by MCTS."""
+        new_game = Connect4Game(self.rows, self.cols, self.board.copy())
+        new_game.player_turn = self.player_turn
+        new_game.turn_counter = self.turn_counter
+        new_game.won = self.won
+        new_game.shift_window = self.shift_window
+        new_game.last_shift = self.last_shift
+        return new_game
+
+    def is_terminal(self):
+        """Returns True if the game is over (win or draw)."""
+        return self.check_win() is not None or self.check_draw()
 
 
 def main():
