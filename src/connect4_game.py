@@ -1,4 +1,4 @@
-from connect4_gui import *
+from src.connect4_gui import *
 import random
 
 
@@ -65,10 +65,8 @@ class Connect4Game:
         Applies gravity shift if the current turn is a multiple of the shfit interval 
         """
         if self.turn_counter % self.shift_interval == 0:
-            direction = random.choice(["left", "right"])
-            self.apply_gravity_shift(direction)
-            self.last_shift = direction
-            return direction
+            self.apply_gravity_shift()
+            return self.last_shift
 
         self.last_shift = None
         return None

@@ -1,5 +1,5 @@
 import copy 
-from connect4_game import *
+from src.connect4_game import Connect4Game
 import random
 import numpy as np
 
@@ -50,13 +50,11 @@ class MCTSAgent:
                 return node 
             else:
                 node = max(node.children, key = lambda child: self._ucb1_score(child))
-
         return node
-        
     
     def expand(self, node: MCTSNode):
         """
-        Expands hte given node and updates the tree with its children
+        Expands the given node and updates the tree with its children
         """
         # select a move from children at random
         random_move = random.choice(node.untried_moves)
@@ -72,41 +70,35 @@ class MCTSAgent:
 
         return new_node
 
-    
-    
-def simulate(self, node: MCTSNode):
-    """
-    From this node, play random moves until the game ends.
-    Returns the winning player (1 or 2), or 0 for a draw..
-    Gravity shift fires automatically inside drop_piece() during rollout.
-    """
-    sim = copy.deepcopy(node.game_state)  
+    def simulate(self, node: MCTSNode):
+        """
+        From this node, play random moves until the game ends.
+        Returns the winning player as 1 or 2 or 0 for a draw
+        """
+        sim = copy.deepcopy(node.game_state)  
 
-    while not sim.is_terminal():
-        moves = sim.get_valid_moves()
-        sim.drop_piece(random.choice(moves))
+        while not sim.is_terminal():
+            moves = sim.get_valid_moves()
+            sim.drop_piece(random.choice(moves))
 
-    winner = sim.check_win()
-    return winner if winner is not None else 0  # 0 = draw
+        winner = sim.check_win()
+        return winner if winner is not None else 0  
     
+    def backpropagate(self, node: MCTSNode, result):
+        """
+        Walk from this node back up to the root.
+        Every node gets +1 visit.
+        A node gets +1 win if the player who moved into that node is the winner
+        """
+        while node is not None:
+            node.visits += 1
+            # player_turn already flipped after drop_piece() so reverse to get who just moved
+            player_who_moved = (node.game_state.player_turn % 2) + 1
+            if result == player_who_moved:
+                node.wins += 1
+            node = node.parent
     
-def backpropagate(self, node: MCTSNode, result):
-    """
-    Walk from this node back up to the root.
-    Every node gets +1 visit.
-    A node gets +1 win if the player who moved INTO that node is the winner.
-    After drop_piece(), player_turn has already switched to the NEXT player,
-    so we reverse it to find who actually just moved.
-    """
-    while node is not None:
-        node.visits += 1
-        # player_turn already flipped after drop_piece(), so reverse to get who just moved
-        player_who_moved = (node.game_state.player_turn % 2) + 1
-        if result == player_who_moved:
-            node.wins += 1
-        node = node.parent
-    
-    def best_move(self, game):
+    def best_move(self, game: Connect4Game):
         """
         Run MCTS and return best column.
         """
@@ -134,9 +126,3 @@ def backpropagate(self, node: MCTSNode, result):
         # choose most visited move
         best_child = max(root.children, key=lambda child: child.visits)
         return best_child.move
-    
-
-
-
-
-    
