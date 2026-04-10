@@ -10,7 +10,7 @@ This project extends the classic Connect 4 game with two core additions:
 
 **MCTS-driven AI** — Rather than relying on a handcrafted heuristic, each player is powered by a Monte Carlo Tree Search agent that runs thousands of simulated playouts per turn to determine the statistically strongest move.
 
-**Gravity Shift** — Every 7 turns, the board randomly tilts left or right. All pieces slide to the tilt side and re-settle under gravity, forcing both agents to adapt to a constantly changing board state.
+**Gravity Shift** — At each turn with 15% probability, the game board randomly shifts to the left or the right, a concept we call "gravity shift". All pieces slide to the tilt side and re-settle under gravity, forcing both agents to adapt to a constantly changing board state.
 
 The game runs entirely autonomously: both players are AI-controlled, the GUI renders each move with a drop animation, and a restart/quit interface is provided for repeated play.
 
