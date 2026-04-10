@@ -35,6 +35,13 @@ def _get_font(size):
             continue
     return pygame.font.Font(None, size)
 
+
+def make_ai_players(n_simulations: int) -> dict:
+    return {
+        1: AIPlayer(player_num=1, n_simulations=n_simulations),
+        2: AIPlayer(player_num=2, n_simulations=n_simulations),
+    }
+
 class Connect4Board:
     def __init__(self, rows, cols, game, n_simulations=500):
         self.rows = rows
@@ -154,14 +161,20 @@ class Connect4Board:
         self.ai_thread = threading.Thread(target=task)
         self.ai_thread.start()
 
-    def _restart(self):
+    def _restart(self):  
+        """
+        Reset the game to a starting state without reopening the window
+        """
         self.game = Connect4Game(
             rows=self.rows,
             cols=self.cols,
             board=np.zeros((self.rows, self.cols), dtype=int)
         )
+        self.hover_col = None
         self.ai_thread = None
         self.ai_move = None
+        self.players = make_ai_players(self.n_simulations)  
+
 
     def run(self, players):
         clock = pygame.time.Clock()
@@ -213,19 +226,14 @@ class Connect4Board:
             pygame.display.update()
             clock.tick(60)
 
-    def _restart(self):
-        """
-        Reset the game to a starting state without reopening the window
-        """
-        self.game = Connect4Game(
-            rows=self.rows,
-            cols=self.cols,
-            board=np.zeros((self.rows, self.cols
-                            ), dtype=int)
-        )
-        self.hover_col = None
 
 if __name__ == "__main__":
     game = Connect4Game(ROWS, COLS, np.zeros((ROWS, COLS), dtype=int))
-    board = Connect4Board(ROWS, COLS, game)
-    board.run()
+    board = Connect4Board(ROWS, COLS, game, n_simulations=500)
+
+    players = {
+        1: AIPlayer(player_num=1, n_simulations=500),
+        2: AIPlayer(player_num=2, n_simulations=500)
+    }
+
+    board.run(players)
