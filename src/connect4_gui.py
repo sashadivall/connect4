@@ -154,12 +154,7 @@ class Connect4Board:
             pygame.display.update()
             clock.tick(60)
 
-    def _run_in_thread(self, player_obj):
-        def task():
-            self.ai_move = player_obj.get_move(self.game)
 
-        self.ai_thread = threading.Thread(target=task)
-        self.ai_thread.start()
 
     def _restart(self):  
         """
@@ -200,10 +195,10 @@ class Connect4Board:
                 player_obj = players[current_player]
 
                 if self.ai_thread is None:
-                    self._run_in_thread(player_obj)
+                    self.ai_thread = player_obj._run_in_thread(self.game)
 
                 elif not self.ai_thread.is_alive():
-                    col = self.ai_move
+                    col = player_obj.result
 
                     if col in self.game.get_valid_moves():
                         color = PLAYER_COLORS[current_player]
