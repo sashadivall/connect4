@@ -1,6 +1,8 @@
 # Connect 4 with Gravity Shift — MCTS AI
 
-A fully autonomous Connect 4 implementation in Python featuring a Monte Carlo Tree Search (MCTS) AI engine, a real-time pygame GUI, and a stochastic gravity shift mechanic that periodically reshuffles the board. Two AI agents compete against each other without any human input required.
+A fully autonomous Connect 4 implementation in Python featuring a Monte Carlo Tree Search (MCTS) AI engine, a real-time pygame GUI, and a stochastic gravity shift mechanic that periodically reshuffles the board. 
+
+Upon starting up the game, the user is presented with two options: either they can play against the AI or watch two AI agents compete against each other without any human input required. We added a Human vs. AI version to give users a better experience and allow them to try to outsmart the AI. For the sake of simplicity, the rest of this README will only reference the AI vs AI game. 
 
 ---
 
@@ -67,7 +69,7 @@ From the root `connect4/` directory:
 python src/connect4_gui.py
 ```
 
-A pygame window will open. Both players are AI-controlled so no mouse input is needed to play. The top bar displays whose turn it is and shows "AI is thinking..." while the MCTS agent computes its move.
+A pygame window will open. The user may select which mode they want to play in - either Human vs. AI or AI vs. AI. If the user selects Human vs. AI, they can also choose which color they would like to play as. In the case that the user selects AI vs. AI, both players are AI-controlled so no mouse input is needed to play. The top bar displays whose turn it is and shows "AI is thinking..." while the MCTS agent computes its move.
 
 ### Run the Test Suite
 
