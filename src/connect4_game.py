@@ -3,14 +3,12 @@ import numpy as np
 
 
 class Connect4Game:
-    def __init__(self, rows, cols, board):
+    def __init__(self, rows, cols, board, shift_prob=0.15):
         # think about what variables we need to track
         # player turn?
         # we should structure this similar to hw1 - have a different file handle the AI stuff
         self.turn_counter = 0
-        # for now, we shift the board every 7 turns
-        # eventually, we will shift the board with some probability at any given turn
-        self.shift_interval = 7
+        self.shift_prob = shift_prob
         self.rows = rows
         self.cols = cols
         self.board = board
@@ -64,12 +62,12 @@ class Connect4Game:
         Called after every drop_piece()
         Applies gravity shift if the current turn is a multiple of the shfit interval 
         """
-        if self.turn_counter % self.shift_interval == 0:
+        if random.random() < self.shift_prob:
             self.apply_gravity_shift()
-            return self.last_shift
-
+            return self.last_shift 
         self.last_shift = None
         return None
+        
        
 
     def check_win(self):
