@@ -135,7 +135,6 @@ class Connect4Game:
         new_game.player_turn = self.player_turn
         new_game.turn_counter = self.turn_counter
         new_game.won = self.won
-        new_game.shift_interval = self.shift_interval
         new_game.last_shift = self.last_shift
         return new_game
 
