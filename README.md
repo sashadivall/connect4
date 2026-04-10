@@ -159,8 +159,8 @@ The test suite in `main.py` covers the following scenarios:
 Authors
 Developed as a collaborative group project by:
 
-Sasha DiVall
 Ruchira Ravindra Karle
+Sasha DiVall
 Dhruhi Patel
 
 Responsibilities were equally divided across the entire project.
