@@ -1,6 +1,7 @@
 import pygame
 import numpy as np 
 from connect4_game import Connect4Game
+from player import AIPlayer
 import sys
 
 pygame.init()
@@ -35,8 +36,16 @@ def _get_font(size):
             continue
     return pygame.font.Font(None, size)
 
+
+def make_ai_players(n_simulations: int) -> dict:
+    return {
+        1: AIPlayer(player_num=1, n_simulations=n_simulations),
+        2: AIPlayer(player_num=2, n_simulations=n_simulations),
+    }
+
+
 class Connect4Board:
-    def __init__(self, rows, cols, game):
+    def __init__(self, rows, cols, game, n_simulations=500):
         self.rows = rows
         self.cols = cols
         self.game: Connect4Game = game
@@ -52,6 +61,8 @@ class Connect4Board:
         self.hover_col = None # column that our mouse is hovering over
         # animation speed for how fast the piece falls
         self.anim_speed = 8
+        self.n_simulations = n_simulations 
+        self.players = make_ai_players(n_simulations)
 
     def _draw_hover(self):
         """
@@ -220,8 +231,9 @@ class Connect4Board:
             board=np.zeros((self.rows, self.cols), dtype=int)
         )
         self.hover_col = None
+        self.players = make_ai_players(self.n_simulations)
 
 if __name__ == "__main__":
     game = Connect4Game(ROWS, COLS, np.zeros((ROWS, COLS), dtype=int))
-    board = Connect4Board(ROWS, COLS, game)
+    board = Connect4Board(ROWS, COLS, game, n_simulations=500)  
     board.run()
