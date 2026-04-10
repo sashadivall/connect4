@@ -1,5 +1,5 @@
-from src.connect4_gui import *
 import random
+import numpy as np
 
 
 class Connect4Game:
@@ -107,15 +107,29 @@ class Connect4Game:
         direction = random.choice(["left", "right"])
         self.last_shift = direction
 
-        # Step 1: shift each row left or right by 1, wrapping pieces around
-        shift_amount = 1 if direction == "right" else -1
-        self.board = np.roll(self.board, shift_amount, axis=1)
+        # find all pieces row by row, bottom to top 
+        # want to preserve ordering so final stack looks natural after gravity
+        all_pieces = []
+        for row in range(self.rows - 1, -1, -1):  # reverse order of rows
+            for col in range(self.cols):
+                if self.board[row][col] != 0:
+                    all_pieces.append(self.board[row][col])
+        
+        # clear the board 
+        self.board = np.zeros((self.rows, self.cols), dtype=int)
 
-        # Step 2: re-apply gravity column by column
-        for col in range(self.cols):
-            pieces = self.board[:, col][self.board[:, col] != 0]
-            empty = self.rows - len(pieces)
-            self.board[:, col] = np.concatenate([np.zeros(empty, dtype=int), pieces])
+        # put the pieces back into the board from the tilt side, reapply gravity
+        col_order = range(self.cols) if direction == "left" else range(self.cols - 1, -1, -1)
+
+        piece_idx = 0
+        for col in col_order:
+            col_pieces = []
+            while piece_idx < len(all_pieces) and len(col_pieces) < self.rows:
+                col_pieces.append(all_pieces[piece_idx])
+                piece_idx += 1
+
+            empty = self.rows - len(col_pieces)
+            self.board[:, col] = np.array([0] * empty + col_pieces, dtype=int)
 
     def clone(self):
         """Deep copy of game state — required by MCTS."""
