@@ -131,11 +131,10 @@ class Connect4Game:
 
     def clone(self):
         """Deep copy of game state — required by MCTS."""
-        new_game = Connect4Game(self.rows, self.cols, self.board.copy())
+        new_game = Connect4Game(self.rows, self.cols, self.board.copy(), self.shift_prob)
         new_game.player_turn = self.player_turn
         new_game.turn_counter = self.turn_counter
         new_game.won = self.won
-        new_game.shift_interval = self.shift_interval
         new_game.last_shift = self.last_shift
         return new_game
 
