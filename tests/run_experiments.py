@@ -1,7 +1,7 @@
 from src.connect4_game import Connect4Game
 from src.connect4_gui import Connect4Board
 from src.player import AIPlayer, RandomPlayer
-
+import numpy as np
 
 def make_game():
     return Connect4Game(rows=6, cols=7, board=np.zeros((6, 7), dtype=int))
@@ -48,7 +48,9 @@ def win_rate_by_sim(n_simulations, n_games=25):
     Records the number of times the AI agent beats the random agent based on how many simulations 
     the AI agent runs for
     """
-    pass
+    ai_agent = AIPlayer(player_num=1, n_simulations=n_simulations)
+    random = RandomPlayer()
+    return play_and_record_wins(ai_agent, random, n_games)
 
 
 
@@ -81,13 +83,18 @@ if __name__ == "__main__":
     # AI vs Random
     print("\nAI vs Random (500 sims)")
     print("-" * 40)
-    win_rate_by_sim(n_simulations=500, n_games=n_games)
+    r3 = play_and_record_wins(
+        AIPlayer(player_num=1, n_simulations=500),   
+        RandomPlayer(),  
+        n_games
+    )
+    print(f"red wins: {r3['red']}  yellow wins: {r3['yellow']}  draws: {r3['draws']}")
 
     # Random vs Random
     print("\nRandom vs Random")
     print("-" * 40)
-    r3 = play_and_record_wins(RandomPlayer(), RandomPlayer(), n_games)
-    print(f"red wins: {r3['red']}  yellow wins: {r3['yellow']}  draws: {r3['draws']}")
+    r4 = play_and_record_wins(RandomPlayer(), RandomPlayer(), n_games)
+    print(f"red wins: {r4['red']}  yellow wins: {r4['yellow']}  draws: {r4['draws']}")
 
     # win rate by sim count vs random 
     print("\nwin rate by simulation count vs random")
