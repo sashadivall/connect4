@@ -1,5 +1,6 @@
 import threading 
 from mcts_agent import MCTSAgent
+import random
 
 class AIPlayer:
     def __init__(self, player_num, n_simulations):
@@ -40,4 +41,11 @@ class RandomPlayer:
     player that makes random move at every turn
     """
     def __init__(self):
-        raise NotImplementedError("implement me")
+        pass
+
+    def get_move(self, game):
+        """
+        Returns a random valid move
+        """
+        valid_moves = game.get_valid_moves()
+        return random.choice(valid_moves) if valid_moves else None
