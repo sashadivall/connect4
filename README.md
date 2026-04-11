@@ -28,20 +28,22 @@ connect4/
 │   ├── mcts_agent.py        # MCTS algorithm: selection, expansion, simulation, backpropagation
 │   ├── player.py            # AIPlayer: thread management and agent interface
 │   ├── connect4_gui.py      # pygame GUI: rendering, animation, main game loop
-│   └── main.py              # Test suite: unit and integration tests
-│
+├── tests/
+│   ├── test_methods.py      # test suite for game logic
+│   ├── run_experiments.py   # runs experiments to evaluate MCTS agent
 └── README.md
 ```
 
 ### Module Responsibilities
 
-| File               | Responsibility                                                                   |
-| ------------------ | -------------------------------------------------------------------------------- |
-| `connect4_game.py` | Board state, move validation, win/draw detection, gravity shift logic            |
-| `mcts_agent.py`    | UCB1-based tree search, random playout simulation, backpropagation               |
-| `player.py`        | Wraps the MCTS agent in a background daemon thread so the GUI stays responsive   |
-| `connect4_gui.py`  | Draws the board, animates piece drops, manages the AI turn loop, handles restart |
-| `main.py`          | Seven automated tests covering core game logic and a full AI vs AI game          |
+| File                 | Responsibility                                                                   |
+| -------------------- | -------------------------------------------------------------------------------- |
+| `connect4_game.py`.  | Board state, move validation, win/draw detection, gravity shift logic            |
+| `mcts_agent.py`      | UCB1-based tree search, random playout simulation, backpropagation               |
+| `player.py`          | Wraps the MCTS agent in a background daemon thread so the GUI stays responsive   |
+| `connect4_gui.py`    | Draws the board, animates piece drops, manages the AI turn loop, handles restart |
+| `test_methods.py`    | Seven automated tests covering core game logic and a full AI vs AI game          |
+| `run_experiments.py` | Runs experiments to evaluate MCTS agent against random agents.                   |
 
 ---
 
@@ -74,7 +76,7 @@ A pygame window will open. The user may select which mode they want to play in -
 ### Run the Test Suite
 
 ```bash
-python src/main.py
+python tests/test_methods.py
 ```
 
 This runs seven tests covering piece placement, win detection, draw detection, gravity shift behaviour, game state cloning, MCTS move validity, and a complete AI vs AI game.
