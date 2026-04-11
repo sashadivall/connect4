@@ -96,7 +96,7 @@ This runs seven tests covering piece placement, win detection, draw detection, g
 
 ### Game Logic — `connect4_game.py`
 
-The `Connect4Game` class maintains the 6×7 board as a NumPy array. Player 1 is represented by `1`, Player 2 by `2`, and empty cells by `0`. Win detection checks all four directions (horizontal, vertical, and both diagonals) using a direction-stepping approach. The gravity shift is triggered every 7 turns via `maybe_trigger_shift()`, which calls `apply_gravity_shift()` to randomly tilt the board and re-settle all pieces under gravity.
+The `Connect4Game` class maintains the 6×7 board as a NumPy array. Player 1 is represented by `1`, Player 2 by `2`, and empty cells by `0`. Win detection checks all four directions (horizontal, vertical, and both diagonals) using a direction-stepping approach. The gravity shift is triggered at a given probability after each turn via `maybe_trigger_shift()`, which calls `apply_gravity_shift()` to randomly tilt the board and re-settle all pieces under gravity.
 
 ### AI Engine — `mcts_agent.py`
 
@@ -133,14 +133,10 @@ On game end, an overlay displays the result and prompts the player to press `R` 
 The number of MCTS simulations per move can be adjusted in `connect4_gui.py`:
 
 ```python
-board = Connect4Board(ROWS, COLS, game, n_simulations=500)
+board = Connect4Board(ROWS, COLS, game, n_simulations=500, shift_prob=0.15)
 ```
 
-Higher values produce stronger play at the cost of longer thinking time. The gravity shift interval (default: every 7 turns) can be adjusted in `connect4_game.py`:
-
-```python
-self.shift_interval = 7
-```
+Higher siimulation counts produce stronger play at the cost of longer thinking time.
 
 ---
 
