@@ -33,3 +33,11 @@ class AIPlayer:
         Returns True if the background thread is running
         """
         return self._thread is not None and self._thread.is_alive()
+    
+
+class RandomPlayer:
+    """
+    player that makes random move at every turn
+    """
+    def __init__(self):
+        raise NotImplementedError("implement me")
