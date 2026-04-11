@@ -144,7 +144,7 @@ self.shift_interval = 7
 
 ## Testing
 
-The test suite in `main.py` covers the following scenarios:
+The test suite in `tests/test_methods.py` covers the following scenarios:
 
 1. **`test_drop_piece`** — verifies pieces land in the correct row and turns alternate correctly
 2. **`test_check_win`** — verifies horizontal win detection
@@ -153,6 +153,12 @@ The test suite in `main.py` covers the following scenarios:
 5. **`test_clone`** — verifies `clone()` produces a fully independent copy of game state
 6. **`test_mcts_returns_valid_move`** — verifies the agent returns a legal move on an empty board
 7. **`test_full_game`** — runs a complete AI vs AI game and verifies it reaches a terminal state
+
+## Experiments
+
+To evaluate the performance of the MCTS agent, we ran a few experiments in `tests/run_experiments.py`
+- **`play_and_record_wins`**: Given two agents and a number of games (default 25), plays n_games Connect 4 rounds and reports wins for each player. 
+- **`win_rate_by_sim`**: Given a number of simulations, instantiates an MCTS agent with that amount of simulations and plays n_games against a random agent.
 
 ---
 
