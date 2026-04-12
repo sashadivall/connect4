@@ -68,7 +68,7 @@ pip install pygame numpy
 From the root `connect4/` directory:
 
 ```bash
-python src/connect4_gui.py
+python -m src.connect4_gui
 ```
 
 A pygame window will open. The user may select which mode they want to play in - either Human vs. AI or AI vs. AI. If the user selects Human vs. AI, they can also choose which color they would like to play as. In the case that the user selects AI vs. AI, both players are AI-controlled so no mouse input is needed to play. The top bar displays whose turn it is and shows "AI is thinking..." while the MCTS agent computes its move.
@@ -76,10 +76,18 @@ A pygame window will open. The user may select which mode they want to play in -
 ### Run the Test Suite
 
 ```bash
-python tests/test_methods.py
+python -m tests.test_methods
 ```
 
 This runs seven tests covering piece placement, win detection, draw detection, gravity shift behaviour, game state cloning, MCTS move validity, and a complete AI vs AI game.
+
+### Run Experiments
+
+```bash
+python -m tests.run_experiments
+```
+
+This runs the experiments we covered in our final paper.
 
 ---
 
