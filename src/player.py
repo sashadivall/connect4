@@ -1,5 +1,5 @@
 import threading 
-from mcts_agent import MCTSAgent
+from src.mcts_agent import MCTSAgent
 import random
 
 class AIPlayer:

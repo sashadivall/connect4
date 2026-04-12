@@ -1,9 +1,8 @@
 import pygame
 import numpy as np 
-from connect4_game import Connect4Game
-from player import AIPlayer
+from src.connect4_game import Connect4Game
+from src.player import AIPlayer
 import sys
-from player import AIPlayer
 
 pygame.init()
 

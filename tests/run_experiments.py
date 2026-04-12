@@ -1,5 +1,13 @@
+import sys
+import os
+
+# Ensure the project root directory is in the Python path, specific to this file
+current_file_path = os.path.abspath(__file__)
+project_root = os.path.dirname(os.path.dirname(current_file_path))
+if project_root not in sys.path:
+    sys.path.append(project_root)
+
 from src.connect4_game import Connect4Game
-from src.connect4_gui import Connect4Board
 from src.player import AIPlayer, RandomPlayer
 import numpy as np
 

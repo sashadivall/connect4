@@ -1,5 +1,5 @@
 import copy 
-from connect4_game import Connect4Game
+from src.connect4_game import Connect4Game
 import random
 import numpy as np
 
